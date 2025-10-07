@@ -1,187 +1,62 @@
-<!-- index.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Neon Black Sheep — Print & Identity</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Print-first studio: identity, business cards, stationery, labels, packaging.">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>nblckshp — portfolio</title>
+
+  <!-- IBM Plex Mono for title -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Neon Black Sheep">NEON BLACK SHEEP</a>
-    <nav class="nav" aria-label="Primary">
-      <a href="#works">Works</a>
-      <a href="#services">Services</a>
-      <a href="#about">About</a>
-      <a href="#contact" class="cta">Contact</a>
-    </nav>
+
+  <!-- TOP BAR -->
+  <header class="topbar hairline-b">
+    <a class="brand" href="#" id="brand">
+      <span class="short">nblckshp</span>
+      <span class="long">neonblacksheep</span>
+    </a>
+
+    <div class="nav-links" style="justify-self:end;">
+      <a href="#" data-panel="about" class="nav-link">About</a>
+      <a href="#" data-panel="contact" class="nav-link">Contact</a>
+    </div>
+
+    <button class="toggle" id="themeToggle" style="justify-self:end;">Toggle</button>
   </header>
 
-  <main id="top">
-    <!-- Hero -->
-    <section class="hero" aria-labelledby="hero-title">
-      <h1 id="hero-title"><em>Design</em> that glows in the dark.</h1>
-      <p class="hero-tag">// print / identity / signal work</p>
-      <p class="hero-note">(outsiders welcome)</p>
-    </section>
-
-    <!-- Services -->
-    <section id="services" class="section section--tight" aria-labelledby="services-title">
-      <div class="section-head">
-        <h2 id="services-title">Services</h2>
-        <p class="micro">deliverable = print-ready, precise, lasting</p>
-      </div>
-      <div class="cards">
-        <article class="card">
-          <h3>(identity)</h3>
-          <ul>
-            <li>logo systems</li>
-            <li>type + color kits</li>
-            <li>brand rules / basics</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>(stationery)</h3>
-          <ul>
-            <li>business cards</li>
-            <li>letterheads + invoices</li>
-            <li>envelopes / stamps</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>(labels / packaging)</h3>
-          <ul>
-            <li>product labels</li>
-            <li>box + sleeve layouts</li>
-            <li>print specs</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>(ads / social)</h3>
-          <ul>
-            <li>static ad sets</li>
-            <li>profile banners</li>
-            <li>campaign kits</li>
-          </ul>
-        </article>
+  <!-- INLINE PANELS -->
+  <div class="panel-wrap">
+    <section id="about" class="panel">
+      <div class="panel-inner">
+        <strong>About.</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla,
+        lectus sed ultricies viverra, dui urna dignissim nunc, non porttitor quam lorem a lorem. Replace
+        this placeholder with your actual statement or studio info.
       </div>
     </section>
-
-    <!-- Works -->
-    <section id="works" class="section" aria-labelledby="works-title">
-      <div class="section-head">
-        <h2 id="works-title">Works</h2>
-        <p class="micro">[identity] [print] [ads] [labels]</p>
-      </div>
-
-      <div class="grid">
-        <!-- Replace placeholders with your images; keep alt concise -->
-        <figure class="tile">
-          <img src="https://placehold.co/800x600/111111/CCCCCC?text=Identity+01" alt="Identity system — 01">
-          <figcaption>Identity 01 <span class="tag">identity</span></figcaption>
-        </figure>
-        <figure class="tile">
-          <img src="https://placehold.co/800x600/111111/CCCCCC?text=Stationery" alt="Stationery set — 02">
-          <figcaption>Stationery <span class="tag">print</span></figcaption>
-        </figure>
-        <figure class="tile">
-          <img src="https://placehold.co/800x600/111111/CCCCCC?text=Label+Kit" alt="Label kit — 03">
-          <figcaption>Label Kit <span class="tag">labels</span></figcaption>
-        </figure>
-        <figure class="tile">
-          <img src="https://placehold.co/800x600/111111/CCCCCC?text=Ad+Set" alt="Ad set — 04">
-          <figcaption>Ad Set <span class="tag">ads</span></figcaption>
-        </figure>
-      </div>
-
-      <!-- Experimental AI section -->
-      <div class="section-sub">
-        <h3 class="mono">AI Workbench <span class="micro">// visual experiments</span></h3>
-        <div class="grid grid--tight">
-          <figure class="tile">
-            <img src="https://placehold.co/800x600/111111/CCCCCC?text=AI+01" alt="AI image — 01">
-            <figcaption>Study 01 <span class="tag">ai</span></figcaption>
-          </figure>
-          <figure class="tile">
-            <img src="https://placehold.co/800x600/111111/CCCCCC?text=AI+02" alt="AI image — 02">
-            <figcaption>Study 02 <span class="tag">ai</span></figcaption>
-          </figure>
-          <figure class="tile">
-            <img src="https://placehold.co/800x600/111111/CCCCCC?text=AI+03" alt="AI image — 03">
-            <figcaption>Study 03 <span class="tag">ai</span></figcaption>
-          </figure>
-        </div>
+    <section id="contact" class="panel">
+      <div class="panel-inner">
+        <strong>Contact.</strong> Email: <a href="mailto:hello@example.com">hello@example.com</a> ·
+        IG: <a href="#">instagram.com/yourhandle</a> · Studio address line.
       </div>
     </section>
+  </div>
 
-    <!-- About -->
-    <section id="about" class="section" aria-labelledby="about-title">
-      <div class="section-head">
-        <h2 id="about-title">About</h2>
-        <p class="micro">paper speaks / type anchors / color signals</p>
-      </div>
-      <div class="about">
-        <p class="lead mono">(inspiration = you)</p>
-        <p>Print-first practice. Identity that holds in your hand. Quiet craft; sharp edges. Minimal noise, high signal.</p>
-        <p class="mono">(Cleveland, OH) (remote-friendly)</p>
-      </div>
-    </section>
-
-    <!-- Process -->
-    <section class="section section--tight" aria-labelledby="process-title">
-      <div class="section-head">
-        <h2 id="process-title">Process</h2>
-        <p class="micro">simple spec list</p>
-      </div>
-      <ol class="process">
-        <li><span>01</span> brief</li>
-        <li><span>02</span> design</li>
-        <li><span>03</span> refine</li>
-        <li><span>04</span> deliver (print-ready)</li>
-      </ol>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="section" aria-labelledby="contact-title">
-      <div class="section-head">
-        <h2 id="contact-title">Contact</h2>
-        <p class="micro">talk to us. (signal received)</p>
-      </div>
-      <form class="contact-form" action="https://formspree.io/f/your-endpoint" method="POST">
-        <label>
-          Name
-          <input type="text" name="name" required>
-        </label>
-        <label>
-          Email
-          <input type="email" name="email" required>
-        </label>
-        <label>
-          Project notes
-          <textarea name="message" rows="5" placeholder="scope / timeline / budget (rough is fine)"></textarea>
-        </label>
-        <button type="submit" class="btn">Send</button>
-      </form>
-    </section>
+  <!-- GRID -->
+  <main class="grid-wrap">
+    <div id="grid" class="grid" aria-live="polite"></div>
   </main>
 
-  <footer class="site-footer">
-    <small class="micro">&copy; <span id="year"></span> Neon Black Sheep. All rights reserved.</small>
-    <div class="foot-nav micro">
-      <a href="#top">top</a>
-      <a href="#services">services</a>
-      <a href="#works">works</a>
-      <a href="#about">about</a>
-      <a href="#contact">contact</a>
+  <!-- BOTTOM BAR -->
+  <footer class="bottombar hairline-t">
+    <div class="filter">
+      <span id="projectsTrigger">Projects <span class="caret">▾</span></span>
+      <div class="dropdown hairline"></div>
     </div>
+    <a href="#" id="showAll" class="all-link">All</a>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
