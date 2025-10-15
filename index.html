@@ -23,7 +23,14 @@
       <a href="#" data-panel="contact" class="nav-link">Contact</a>
     </div>
 
-    <button class="toggle" id="themeToggle" style="justify-self:end;">Toggle</button>
+    <button class="toggle" id="themeToggle" style="justify-self:end;" aria-pressed="false">
+      <span class="sr-only">Toggle color theme</span>
+      <span class="toggle-track">
+        <span class="toggle-icon toggle-icon--moon" aria-hidden="true">☾</span>
+        <span class="toggle-icon toggle-icon--sun" aria-hidden="true">☀</span>
+        <span class="toggle-thumb" aria-hidden="true"></span>
+      </span>
+    </button>
   </header>
 
   <!-- INLINE PANELS -->

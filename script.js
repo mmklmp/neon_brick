@@ -78,13 +78,25 @@ function randomAccent() {
 }
 
 /* THEME */
+function applyTheme(theme, { persist = true } = {}) {
+  root.setAttribute('data-theme', theme);
+  if (persist) {
+    localStorage.setItem('theme', theme);
+  }
+  const isLight = theme === 'light';
+  themeToggle.classList.toggle('is-light', isLight);
+  themeToggle.setAttribute('aria-pressed', String(isLight));
+  themeToggle.setAttribute('title', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+}
+
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme) root.setAttribute('data-theme', savedTheme);
+const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+applyTheme(initialTheme, { persist: false });
+
 themeToggle.addEventListener('click', () => {
   const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   const next = current === 'light' ? 'dark' : 'light';
-  root.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  applyTheme(next);
 });
 
 /* NAV PANELS */

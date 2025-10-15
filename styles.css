@@ -28,6 +28,17 @@ body {
   line-height: 1.35;
   transition: background-color var(--transition), color var(--transition);
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -84,17 +95,63 @@ a:hover { color: var(--accent); }
   align-items: center;
 }
 .toggle {
-  font-size: 12px;
-  padding: 6px 8px;
-  border: 1px solid var(--line);
-  background: transparent;
-  color: inherit;
+  position: relative;
+  width: 52px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: none;
   cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-.toggle:hover { color: var(--accent); }
+.toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.toggle-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--fg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  transition: background-color var(--transition), border-color var(--transition);
+}
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: transform var(--transition), background-color var(--transition), box-shadow var(--transition);
+}
+.toggle-icon {
+  font-size: 12px;
+  line-height: 1;
+  color: var(--bg);
+  opacity: 0.45;
+  transition: opacity var(--transition);
+  pointer-events: none;
+  z-index: 1;
+}
+.toggle-icon--moon { margin-right: 2px; }
+.toggle-icon--sun { margin-left: 2px; }
+.toggle.is-light .toggle-thumb {
+  transform: translateX(26px);
+}
+.toggle.is-light .toggle-icon--sun,
+.toggle:not(.is-light) .toggle-icon--moon {
+  opacity: 0.85;
+}
 
 /* BOTTOM BAR */
 .bottombar {
