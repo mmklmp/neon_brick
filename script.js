@@ -1,66 +1,75 @@
 const grid = document.getElementById('grid');
 const root = document.documentElement;
 const themeToggle = document.getElementById('themeToggle');
-const dropdown = document.querySelector('.dropdown');
-const showAll = document.getElementById('showAll');
+const filterButtons = document.getElementById('filterButtons');
 const brand = document.getElementById('brand');
+const hasResizeObserver = typeof ResizeObserver !== 'undefined';
 
-/* PROJECT DATA — 9 projects, 2–7 images each */
+const resizeObserver = hasResizeObserver
+  ? new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        const card = entry.target;
+        if (card.hidden) return;
+        updateCardSpan(card, entry.contentRect.height);
+      });
+    })
+  : null;
+
+/* PROJECT DATA — curated landscapes and deep space imagery only */
 const PROJECTS = [
-  { name: 'Project001', images: [
-    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1499084732479-de2c02d45fc4?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1520697222868-7b22f76b1d2b?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1535909339361-9b84b0d0a91a?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Aurora Basin', images: [
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80',
+    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=80',
+    'https://images.pexels.com/photos/998641/pexels-photo-998641.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/2156/sky-night-space-galaxy.jpg?auto=compress&cs=tinysrgb&dpr=2&w=1600'
   ]},
-  { name: 'Project002', images: [
-    'https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1516637090014-cb1ab0d08fc7?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1532634822-0444f2122541?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Glacial Mirror', images: [
+    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=80',
+    'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1600&q=80',
+    'https://images.pexels.com/photos/314726/pexels-photo-314726.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/1192335/pexels-photo-1192335.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600'
   ]},
-  { name: 'Project003', images: [
-    'https://images.unsplash.com/photo-1520962918287-7448c2878f65?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Ocean Pulse', images: [
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80',
+    'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=1600&q=80',
+    'https://images.pexels.com/photos/247478/pexels-photo-247478.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/39811/pexels-photo-39811.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600'
   ]},
-  { name: 'Project004', images: [
-    'https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1526814059966-542a8316e83c?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1520975693416-8f7880654e7b?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1508830524289-0adcbe822b40?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1523731407965-2430cd12f5e4?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Silent Pines', images: [
+    'https://images.pexels.com/photos/355241/pexels-photo-355241.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/237705/pexels-photo-237705.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80'
   ]},
-  { name: 'Project005', images: [
-    'https://images.unsplash.com/photo-1496307042754-00b4f2b91b0b?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1509529711801-deac231925ac?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1495562569060-2eec283d3391?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1520975650623-7b1c7c5cf4b4?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1500534314210-9b3f0f9c5a2c?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1514890547357-a9ee9a20e46f?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1465420961937-e0eba4dda519?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Cascade Hollow', images: [
+    'https://images.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/3560044/pexels-photo-3560044.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1600&q=80',
+    'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600'
   ]},
-  { name: 'Project006', images: [
-    'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Dune Horizon', images: [
+    'https://images.unsplash.com/photo-1441829266145-6d4bfbd38eb4?auto=format&fit=crop&w=1600&q=80',
+    'https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/462353/pexels-photo-462353.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600'
   ]},
-  { name: 'Project007', images: [
-    'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1520975732678-0f6155c9c6ad?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1495567720989-cebdbdd97913?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1500534314209-6b7c2673e1bf?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Summit Veil', images: [
+    'https://images.unsplash.com/photo-1465101162946-4377e57745c3?auto=format&fit=crop&w=1600&q=80',
+    'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/1139648/pexels-photo-1139648.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.unsplash.com/photo-1455218873509-8097305ee378?auto=format&fit=crop&w=1600&q=80'
   ]},
-  { name: 'Project008', images: [
-    'https://images.unsplash.com/photo-1499084732479-c84f91e6c6bf?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1526483360412-f4dbaf036963?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Forest Aura', images: [
+    'https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600'
   ]},
-  { name: 'Project009', images: [
-    'https://images.unsplash.com/photo-1508830524289-0adcbe822b40?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1520975485225-8b1d2e5a3f51?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1600&auto=format&fit=crop'
+  { name: 'Nebula Drift', images: [
+    'https://images.pexels.com/photos/2150/sky-space-dark-galaxy.jpg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/847393/pexels-photo-847393.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/924824/pexels-photo-924824.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600',
+    'https://images.pexels.com/photos/1588349/pexels-photo-1588349.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1600'
   ]}
 ];
 
@@ -77,14 +86,34 @@ function randomAccent() {
   return `hsl(${hue} 100% 55%)`;
 }
 
+function debounce(fn, wait = 150) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn.apply(null, args), wait);
+  };
+}
+
 /* THEME */
+function applyTheme(theme, { persist = true } = {}) {
+  root.setAttribute('data-theme', theme);
+  if (persist) {
+    localStorage.setItem('theme', theme);
+  }
+  const isLight = theme === 'light';
+  themeToggle.classList.toggle('is-light', isLight);
+  themeToggle.setAttribute('aria-pressed', String(isLight));
+  themeToggle.setAttribute('title', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+}
+
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme) root.setAttribute('data-theme', savedTheme);
+const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+applyTheme(initialTheme, { persist: false });
+
 themeToggle.addEventListener('click', () => {
   const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   const next = current === 'light' ? 'dark' : 'light';
-  root.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  applyTheme(next);
 });
 
 /* NAV PANELS */
@@ -119,6 +148,7 @@ function createCard(projectName, src) {
 
   card.appendChild(img);
   card.appendChild(overlay);
+  prepareCard(card);
   return card;
 }
 function batchFromProjects(projects) {
@@ -128,10 +158,15 @@ function batchFromProjects(projects) {
 }
 function renderInitial() {
   grid.innerHTML = '';
+  if (resizeObserver) {
+    resizeObserver.disconnect();
+  }
   const items = batchFromProjects(PROJECTS);
   const frag = document.createDocumentFragment();
   items.forEach(el => frag.appendChild(el));
   grid.appendChild(frag);
+  items.forEach(registerCard);
+  requestAnimationFrame(updateAllMasonry);
 }
 renderInitial();
 
@@ -146,55 +181,118 @@ function maybeAppendMore() {
   const frag = document.createDocumentFragment();
   items.forEach(el => frag.appendChild(el));
   grid.appendChild(frag);
-  appending = false;
+  items.forEach(registerCard);
+  requestAnimationFrame(() => {
+    updateAllMasonry();
+    appending = false;
+  });
 }
 window.addEventListener('scroll', maybeAppendMore, { passive: true });
 
-/* DROPDOWN BUILD + FILTERING */
-function buildDropdown() {
-  dropdown.innerHTML = '';
+/* FILTER BUTTONS */
+function createFilterButton(label, token, projectName = '') {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'filter-btn';
+  button.dataset.project = token;
+  button.textContent = label;
+  button.addEventListener('click', () => {
+    const value = token === '*' ? '' : projectName;
+    filterProject(value);
+    setActiveFilter(token);
+  });
+  button.addEventListener('mouseenter', () => button.style.setProperty('--accent', randomAccent()));
+  button.addEventListener('mouseleave', () => button.style.removeProperty('--accent'));
+  return button;
+}
+
+function buildFilters() {
+  filterButtons.innerHTML = '';
+  filterButtons.appendChild(createFilterButton('All', '*'));
   PROJECTS.forEach(p => {
-    const a = document.createElement('a');
-    a.href = '#';
-    a.textContent = p.name;
-    a.dataset.project = p.name;
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      filterProject(p.name);
-      setActiveDropdown(p.name);
-    });
-    a.addEventListener('mouseenter', () => a.style.setProperty('--accent', randomAccent()));
-    a.addEventListener('mouseleave', () => a.style.removeProperty('--accent'));
-    dropdown.appendChild(a);
+    filterButtons.appendChild(createFilterButton(p.name, p.name, p.name));
+  });
+  setActiveFilter('*');
+}
+
+function setActiveFilter(token) {
+  filterButtons.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.project === token);
   });
 }
-function setActiveDropdown(name) {
-  dropdown.querySelectorAll('a').forEach(el => {
-    el.classList.toggle('is-active', el.dataset.project === name);
-  });
-}
+
 function filterProject(name) {
   document.querySelectorAll('.card').forEach(card => {
-    card.style.display = name ? (card.dataset.project === name ? '' : 'none') : '';
+    const match = !name || card.dataset.project === name;
+    if (match) {
+      card.hidden = false;
+      registerCard(card);
+    } else {
+      card.hidden = true;
+      card.style.gridRowEnd = 'span 1';
+      if (resizeObserver) {
+        resizeObserver.unobserve(card);
+      }
+    }
+  });
+  requestAnimationFrame(updateAllMasonry);
+}
+
+buildFilters();
+
+/* MASONRY GRID HELPERS */
+function chooseColumnSpan() {
+  const roll = Math.random();
+  if (roll > 0.88) return 3;
+  if (roll > 0.52) return 2;
+  return 1;
+}
+
+function prepareCard(card) {
+  const span = chooseColumnSpan();
+  card.style.gridColumn = `span ${span}`;
+  card.style.gridRowEnd = 'span 1';
+  const img = card.querySelector('img');
+  const onLoad = () => requestAnimationFrame(updateAllMasonry);
+  if (img.complete) {
+    requestAnimationFrame(updateAllMasonry);
+  } else {
+    img.addEventListener('load', onLoad, { once: true });
+    img.addEventListener('error', onLoad, { once: true });
+  }
+}
+
+function registerCard(card) {
+  if (resizeObserver) {
+    resizeObserver.observe(card);
+  } else {
+    requestAnimationFrame(() => updateCardSpan(card));
+  }
+}
+
+function getMasonryMetrics() {
+  const styles = getComputedStyle(grid);
+  const rowHeight = parseFloat(styles.getPropertyValue('--masonry-row-height')) || 1;
+  const rowGap = parseFloat(styles.getPropertyValue('row-gap')) || 0;
+  return { rowHeight, rowGap };
+}
+
+function updateCardSpan(card, measuredHeight) {
+  const { rowHeight, rowGap } = getMasonryMetrics();
+  const height = typeof measuredHeight === 'number' ? measuredHeight : card.getBoundingClientRect().height;
+  if (!height) return;
+  const span = Math.max(1, Math.ceil((height + rowGap) / (rowHeight + rowGap)));
+  card.style.gridRowEnd = `span ${span}`;
+}
+
+function updateAllMasonry() {
+  if (!grid) return;
+  document.querySelectorAll('.card').forEach(card => {
+    if (card.hidden) return;
+    updateCardSpan(card);
   });
 }
-buildDropdown();
 
-showAll.addEventListener('click', e => {
-  e.preventDefault();
-  filterProject('');
-  setActiveDropdown(null);
-});
-showAll.addEventListener('mouseenter', () => showAll.style.setProperty('--accent', randomAccent()));
-showAll.addEventListener('mouseleave', () => showAll.style.removeProperty('--accent'));
-
-/* Keyboard: open/close dropdown with Enter/Space */
-const projectsTrigger = document.getElementById('projectsTrigger');
-projectsTrigger.tabIndex = 0;
-projectsTrigger.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    const isOpen = getComputedStyle(dropdown).display !== 'none';
-    dropdown.style.display = isOpen ? 'none' : 'block';
-  }
-});
+window.addEventListener('resize', debounce(() => {
+  updateAllMasonry();
+}, 200));

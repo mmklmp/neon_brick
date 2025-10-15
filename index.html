@@ -23,7 +23,12 @@
       <a href="#" data-panel="contact" class="nav-link">Contact</a>
     </div>
 
-    <button class="toggle" id="themeToggle" style="justify-self:end;">Toggle</button>
+    <button class="toggle" id="themeToggle" style="justify-self:end;" aria-pressed="false">
+      <span class="sr-only">Toggle color theme</span>
+      <span class="toggle-track" aria-hidden="true">
+        <span class="toggle-thumb"></span>
+      </span>
+    </button>
   </header>
 
   <!-- INLINE PANELS -->
@@ -50,11 +55,10 @@
 
   <!-- BOTTOM BAR -->
   <footer class="bottombar hairline-t">
-    <div class="filter">
-      <span id="projectsTrigger">Projects <span class="caret">▾</span></span>
-      <div class="dropdown hairline"></div>
+    <div class="filter" role="group" aria-label="Filter projects">
+      <span class="filter-label">Projects</span>
+      <div id="filterButtons" class="filter-buttons"></div>
     </div>
-    <a href="#" id="showAll" class="all-link">All</a>
   </footer>
 
   <script src="script.js"></script>
